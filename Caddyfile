@@ -15,24 +15,28 @@
 		format json
 	}
 
-	encode gzip zstd
-
-	header {
-		X-Content-Type-Options nosniff
-		Referrer-Policy strict-origin-when-cross-origin
-		X-Frame-Options DENY
-		-Server
+	handle /health {
+		respond 200
 	}
 
-	respond /health 200
+	handle {
+		encode gzip zstd
 
-	root * .
-	try_files {path} /index.html
-	file_server {
-		hide .git
-		hide .gitignore
-		hide Caddyfile
-		hide railway.toml
-		hide README.md
+		header {
+			X-Content-Type-Options nosniff
+			Referrer-Policy strict-origin-when-cross-origin
+			X-Frame-Options DENY
+			-Server
+		}
+
+		root * .
+		try_files {path} /index.html
+		file_server {
+			hide .git
+			hide .gitignore
+			hide Caddyfile
+			hide railway.toml
+			hide README.md
+		}
 	}
 }
