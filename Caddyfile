@@ -1,0 +1,38 @@
+{
+	admin off
+	persist_config off
+	auto_https off
+	log {
+		format json
+	}
+	servers {
+		trusted_proxies static private_ranges 100.0.0.0/8
+	}
+}
+
+:{$PORT:8080} {
+	log {
+		format json
+	}
+
+	encode gzip zstd
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		X-Frame-Options DENY
+		-Server
+	}
+
+	respond /health 200
+
+	root * .
+	try_files {path} /index.html
+	file_server {
+		hide .git
+		hide .gitignore
+		hide Caddyfile
+		hide railway.toml
+		hide README.md
+	}
+}
