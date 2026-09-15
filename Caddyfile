@@ -19,6 +19,14 @@
 		respond 200
 	}
 
+	# zefdev.com is the old company domain; zef.dev is canonical. Both are
+	# attached to this service, so the redirect happens here rather than in
+	# DNS, and {uri} keeps the path and query intact.
+	@zefdev host zefdev.com www.zefdev.com
+	handle @zefdev {
+		redir https://zef.dev{uri} permanent
+	}
+
 	handle {
 		encode gzip zstd
 
