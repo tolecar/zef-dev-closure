@@ -37,6 +37,11 @@
 			-Server
 		}
 
+		# Go's built-in MIME table has no woff2, so the type would depend on
+		# whether the host image happens to ship /etc/mime.types.
+		@woff2 path *.woff2
+		header @woff2 Content-Type font/woff2
+
 		root * .
 		try_files {path} /index.html
 		file_server {
